@@ -2,22 +2,24 @@ package com.example.entity;
 
 import java.util.Objects;
 
-public class MainObject {
+public abstract class BaseEntity {
+    private long id;
 
-    private Long id;
-
-    public MainObject() {
+    public BaseEntity() {
+        //
     }
 
-    public MainObject(Long id) {
-        this.id = id + 1000000;
+    public BaseEntity(long id) {
+        if (id < 0)
+            id = 0;
+        this.id = id;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -25,13 +27,12 @@ public class MainObject {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MainObject that = (MainObject) o;
-        return Objects.equals(id, that.id);
+        BaseEntity that = (BaseEntity) o;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id);
     }
 }
