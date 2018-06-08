@@ -29,10 +29,10 @@ public class UserController {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ResponseEntity<User> getUser(@RequestParam("id") long id) {
-//        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
-//    }
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getUser(@RequestParam("id") long id) {
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addUser(@RequestBody User user, @RequestParam(name = "id", required = false) Long id) {
