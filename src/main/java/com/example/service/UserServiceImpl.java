@@ -60,7 +60,10 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User changeName(long id, String newName) {
-        User user = null;
+        return getUser(id, newName, new User());
+    }
+
+    private User getUser(long id, String newName, User user) {
         for (int i = 0; i < userList.size(); i++) {
             user = userList.get(i);
             if (user.getId() == id) {

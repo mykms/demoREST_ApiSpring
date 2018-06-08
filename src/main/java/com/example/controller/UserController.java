@@ -4,19 +4,28 @@ import com.example.entity.User;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getNotAllUsers() {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
@@ -25,9 +34,9 @@ public class UserController {
 //        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
 //    }
 
-    @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        if (user == null)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> addUser(@RequestBody User user, @RequestParam(name = "id", required = false) Long id) {
+        if (Objects.isNull(user))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
