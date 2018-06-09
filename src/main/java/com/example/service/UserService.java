@@ -5,13 +5,13 @@ import java.util.List;
 
 public interface UserService {
     List<User> getAll();
-    User getUser(long id);
+    User getUser(Long id);
     List<User> getUsers(String firstName);
 
     User addUser(User user);
 
-    void deleteUser(long id);
+    void deleteUser(Long id);
     void deleteUser(User user);
 
-    User changeName(long id, String newName);
+    User changeName(Long id, String newName);
 }

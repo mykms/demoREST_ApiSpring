@@ -1,36 +1,30 @@
 package com.example.entity;
 
-import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.Column;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
+import java.util.Objects;
 
-@DynamicUpdate
-@javax.persistence.Entity
-@javax.persistence.Table(name = "User")
+@Entity
+@Table(name = "test_user")
 public class User extends BaseEntity {
-    @NotEmpty
-    @Column(name = "FirstName")
-    private String firstName;
 
+    private String firstName;
     private String surname;
     private String patronymic;
-    private short age;
+    private Short age;
     private Date birthday;
 
     public User() {
         //
     }
 
-    public User(String firstName, String surname, String patronymic, short age, Date birthday) {
-        this.firstName = firstName;
-        this.surname = surname;
-        this.patronymic = patronymic;
-        this.age = age;
-        this.birthday = birthday;
+    public User(Long id) {
+        super(id);
     }
 
+    @Column(name = "first_name")
     public String getFirstName() {
         return firstName;
     }
@@ -39,6 +33,7 @@ public class User extends BaseEntity {
         this.firstName = firstName;
     }
 
+    @Column(name = "surname")
     public String getSurname() {
         return surname;
     }
@@ -47,6 +42,7 @@ public class User extends BaseEntity {
         this.surname = surname;
     }
 
+    @Column(name = "patronymic")
     public String getPatronymic() {
         return patronymic;
     }
@@ -55,19 +51,40 @@ public class User extends BaseEntity {
         this.patronymic = patronymic;
     }
 
-    public short getAge() {
+    @Column(name = "age")
+    public Short getAge() {
         return age;
     }
 
-    public void setAge(short age) {
+    public void setAge(Short age) {
         this.age = age;
     }
 
+    @Column(name = "birthday")
     public Date getBirthday() {
         return birthday;
     }
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        User user = (User) o;
+        return Objects.equals(firstName, user.firstName) &&
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(patronymic, user.patronymic) &&
+                Objects.equals(age, user.age) &&
+                Objects.equals(birthday, user.birthday);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), firstName, surname, patronymic, age, birthday);
     }
 }
