@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "test_user")
 public class User extends BaseEntity {
-
     private String firstName;
     private String surname;
     private String patronymic;
@@ -84,7 +83,6 @@ public class User extends BaseEntity {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(super.hashCode(), firstName, surname, patronymic, age, birthday);
     }
 }

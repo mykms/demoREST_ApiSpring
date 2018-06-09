@@ -14,8 +14,7 @@ import java.util.Optional;
 public class UserServiceImpl extends BaseService implements UserService {
     private List<User> userList = new ArrayList<>();
 
-    @Autowired
-    private UserRepository repository;
+    //@Autowired private UserRepository repository;
 
     @Override
     public List<User> getAll() {
@@ -25,16 +24,19 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public User getUser(Long id) {
         User resUser = null;
-        for (User user : userList) {
-            if (user.getId().equals(id)) {
-                resUser = user;
-                break;
-            }
-        }
-        Optional<Long> userFromDb = repository.findById(new User(id));
+//        for (User user : userList) {
+//            if (user.getId().equals(id)) {
+//                resUser = user;
+//                break;
+//            }
+//        }
+/*
+        repository.findUserById(id);
+        Optional<User> userFromDb = repository.findById(id);
         if (userFromDb.isPresent()) {
-            Long id1 = userFromDb.get();
+            resUser = userFromDb.get();
         }
+*/
         return resUser;
     }
 
