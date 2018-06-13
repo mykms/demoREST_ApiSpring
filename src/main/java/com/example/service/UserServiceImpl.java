@@ -4,8 +4,6 @@ import com.example.entity.User;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.rmi.runtime.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,13 +28,13 @@ public class UserServiceImpl extends BaseService implements UserService {
 //                break;
 //            }
 //        }
-/*
-        repository.findUserById(id);
-        Optional<User> userFromDb = repository.findById(id);
-        if (userFromDb.isPresent()) {
-            resUser = userFromDb.get();
-        }
-*/
+
+//        repository.findById(id);
+//        Optional<User> userFromDb = repository.findById(id);
+//        if (userFromDb.isPresent()) {
+//            resUser = userFromDb.get();
+//        }
+
         return resUser;
     }
 
