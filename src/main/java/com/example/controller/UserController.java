@@ -8,14 +8,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Objects;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
-
     @Autowired
     private UserService userService;
 
@@ -24,14 +22,19 @@ public class UserController {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getNotAllUsers() {
-        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+    @GetMapping(value = "/identifier/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getUserById(@PathVariable(name = "id") Long id) {
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@RequestParam("id") long id) {
+    public ResponseEntity<User> getUser(@RequestParam("id") Long id) {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getUsersByName(@PathVariable(name = "name") String name) {
+        return new ResponseEntity<>(userService.getUsers(name), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,5 +43,17 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/action/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteUserById(@PathVariable(name = "id") Long id) {
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // ????
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> updateUserNameById(@RequestParam("id") Long id, @RequestParam("name") String name) {
+        return new ResponseEntity<>(userService.updateUserName(id, name), HttpStatus.OK);
     }
 }
