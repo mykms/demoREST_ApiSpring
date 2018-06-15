@@ -3,11 +3,12 @@ package com.example.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "category")
-public class Category extends BaseEntity {
+public class Category extends BaseEntity implements Serializable {
     private String name;
     private Long idSubcategory;
 
