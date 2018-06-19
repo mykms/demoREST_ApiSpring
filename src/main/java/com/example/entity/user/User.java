@@ -1,12 +1,14 @@
 package com.example.entity.user;
 
 import com.example.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "user_person")
@@ -20,8 +22,10 @@ public class User extends BaseEntity implements Serializable {
     private Date birthday;
     private UserType userType;
     private UserGender gender;
-    private Set<UserContact> userContact;
+    private UserContact userContact;
     private UserStatus status;
+    //public String[] roles;
+    //public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     public User() {
         //
@@ -29,6 +33,17 @@ public class User extends BaseEntity implements Serializable {
 
     public User(Long id) {
         super(id);
+    }
+
+    public User(String user_login, String user_password, String firstName, String surname, String patronymic, Short age, UserType userType, UserGender gender) {
+        this.user_login = user_login;
+        setUser_password(user_password);
+        this.firstName = firstName;
+        this.surname = surname;
+        this.patronymic = patronymic;
+        this.age = age;
+        this.userType = userType;
+        this.gender = gender;
     }
 
     @Column(name = "first_name")
@@ -86,12 +101,13 @@ public class User extends BaseEntity implements Serializable {
     }
 
     @Column(name = "user_password")
+    @JsonIgnore
     public String getUser_password() {
         return user_password;
     }
 
     public void setUser_password(String user_password) {
-        this.user_password = user_password;
+        this.user_password = user_password;//PASSWORD_ENCODER.encode(user_password);
     }
 
     @Column(name = "user_type")
@@ -114,13 +130,13 @@ public class User extends BaseEntity implements Serializable {
         this.gender = gender;
     }
 
-    @OneToMany
+    //@OneToMany
     @Column(name = "contact_id")
-    public Set<UserContact> getUserContact() {
+    public UserContact getUserContact() {
         return userContact;
     }
 
-    public void setUserContact(Set<UserContact> userContact) {
+    public void setUserContact(UserContact userContact) {
         this.userContact = userContact;
     }
 
@@ -149,11 +165,13 @@ public class User extends BaseEntity implements Serializable {
                 Objects.equals(birthday, user.birthday) &&
                 userType == user.userType &&
                 gender == user.gender &&
-                Objects.equals(userContact, user.userContact);
+                Objects.equals(userContact, user.userContact) &&
+                Objects.equals(status, user.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), user_login, user_password, firstName, surname, patronymic, age, birthday, userType, gender, userContact);
+
+        return Objects.hash(super.hashCode(), user_login, user_password, firstName, surname, patronymic, age, birthday, userType, gender, userContact, status);
     }
 }

@@ -12,5 +12,5 @@ public interface UserService {
 
     void deleteUser(Long id);
 
-    User updateUserName(Long id, String newName);
+    User updateUserName(User user);
 }

@@ -63,7 +63,6 @@ public class UserStatus extends BaseEntity implements Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(super.hashCode(), lastEnter, blockDate, delete);
     }
 }

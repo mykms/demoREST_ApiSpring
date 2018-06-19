@@ -45,9 +45,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     }
 
     @Override
-    public User updateUserName(Long id, String newName) {
-        User user = getUser(id);
-        user.setFirstName(newName);
+    public User updateUserName(User user) {
         return repository.saveAndFlush(user);
     }
 }

@@ -58,7 +58,6 @@ public class UserContact extends BaseEntity implements Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(super.hashCode(), contactType, contactValue, userId);
     }
 }

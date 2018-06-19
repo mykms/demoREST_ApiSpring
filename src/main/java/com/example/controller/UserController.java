@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.entity.dto.ResponseDTO;
 import com.example.entity.user.User;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+    public ResponseEntity<ResponseDTO> getAllUsers() {
+        return new ResponseEntity<>(new ResponseDTO(userService.getAll()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/identifier/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUserById(@PathVariable(name = "id") Long id) {
-        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+    public ResponseEntity<ResponseDTO> getUserById(@PathVariable(name = "id") Long id) {
+        return new ResponseEntity<>(new ResponseDTO(userService.getUser(id)), HttpStatus.OK);
     }
 
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,7 +53,11 @@ public class UserController {
 
     // ????
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> updateUserNameById(@RequestParam("id") Long id, @RequestParam("name") String name) {
-        return new ResponseEntity<>(userService.updateUserName(id, name), HttpStatus.OK);
+    public ResponseEntity<User> updateUserNameById(@RequestBody User user) {
+        User newUser = new User(user.getUser_login(), user.getUser_password(), user.getFirstName(), user.getSurname(),
+                user.getPatronymic(), user.getAge(), user.getUserType(), user.getGender());
+        newUser.setFirstName("Familiya");
+        newUser.setAge((short)(user.getAge() + 15));
+        return new ResponseEntity<>(userService.updateUserName(user), HttpStatus.OK);
     }
 }
