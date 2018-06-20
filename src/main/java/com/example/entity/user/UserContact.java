@@ -16,7 +16,7 @@ public class UserContact extends BaseEntity implements Serializable {
     public UserContact() {
     }
 
-    @Column(name = "contact_type")
+    @Column(name = "contact_type", nullable = false)
     public UserContactType getContactType() {
         return contactType;
     }
@@ -25,7 +25,7 @@ public class UserContact extends BaseEntity implements Serializable {
         this.contactType = contactType;
     }
 
-    @Column(name = "contact_value")
+    @Column(name = "contact_value", nullable = false)
     public String getContactValue() {
         return contactValue;
     }

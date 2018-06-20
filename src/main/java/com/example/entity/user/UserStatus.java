@@ -10,7 +10,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "user_status")
 public class UserStatus extends BaseEntity implements Serializable {
-    private Date lastEnter;
     private Date blockDate;
     private boolean delete;
     private User user;
@@ -20,15 +19,6 @@ public class UserStatus extends BaseEntity implements Serializable {
 
     public UserStatus(Long id) {
         super(id);
-    }
-
-    @Column(name = "last_enter_date")
-    public Date getLastEnter() {
-        return lastEnter;
-    }
-
-    public void setLastEnter(Date lastEnter) {
-        this.lastEnter = lastEnter;
     }
 
     @Column(name = "block_date")
@@ -66,13 +56,12 @@ public class UserStatus extends BaseEntity implements Serializable {
         if (!super.equals(o)) return false;
         UserStatus that = (UserStatus) o;
         return delete == that.delete &&
-                Objects.equals(lastEnter, that.lastEnter) &&
                 Objects.equals(blockDate, that.blockDate) &&
                 Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), lastEnter, blockDate, delete, user);
+        return Objects.hash(super.hashCode(), blockDate, delete, user);
     }
 }
