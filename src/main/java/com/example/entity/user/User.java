@@ -1,12 +1,12 @@
 package com.example.entity.user;
 
 import com.example.entity.BaseEntity;
+import com.example.entity.Session;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "user_person")
@@ -22,11 +22,11 @@ public class User extends BaseEntity implements Serializable {
     private UserGender gender;
     private List<UserContact> userContact;
     private UserStatus status;
+    private List<Session> sessions;
     //public String[] roles;
     //public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     public User() {
-        //
     }
 
     public User(Long id) {
@@ -146,27 +146,12 @@ public class User extends BaseEntity implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        User user = (User) o;
-        return Objects.equals(user_login, user.user_login) &&
-                Objects.equals(user_password, user.user_password) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(surname, user.surname) &&
-                Objects.equals(patronymic, user.patronymic) &&
-                Objects.equals(age, user.age) &&
-                Objects.equals(birthday, user.birthday) &&
-                userType == user.userType &&
-                gender == user.gender &&
-                Objects.equals(userContact, user.userContact) &&
-                Objects.equals(status, user.status);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    public List<Session> getSessions() {
+        return sessions;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), user_login, user_password, firstName, surname, patronymic, age, birthday, userType, gender, userContact, status);
+    public void setSessions(List<Session> sessions) {
+        this.sessions = sessions;
     }
 }
