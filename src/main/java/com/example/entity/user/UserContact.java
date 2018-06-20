@@ -2,9 +2,7 @@ package com.example.entity.user;
 
 import com.example.entity.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,7 +11,7 @@ import java.util.Objects;
 public class UserContact extends BaseEntity implements Serializable {
     private UserContactType contactType;
     private String contactValue;
-    private Long userId;
+    private User user;
 
     public UserContact() {
     }
@@ -36,13 +34,14 @@ public class UserContact extends BaseEntity implements Serializable {
         this.contactValue = contactValue;
     }
 
-    @Column(name = "user_id")
-    public Long getUserId() {
-        return userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -53,11 +52,11 @@ public class UserContact extends BaseEntity implements Serializable {
         UserContact that = (UserContact) o;
         return contactType == that.contactType &&
                 Objects.equals(contactValue, that.contactValue) &&
-                Objects.equals(userId, that.userId);
+                Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), contactType, contactValue, userId);
+        return Objects.hash(super.hashCode(), contactType, contactValue, user);
     }
 }

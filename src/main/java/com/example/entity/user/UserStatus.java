@@ -2,9 +2,7 @@ package com.example.entity.user;
 
 import com.example.entity.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -15,6 +13,7 @@ public class UserStatus extends BaseEntity implements Serializable {
     private Date lastEnter;
     private Date blockDate;
     private boolean delete;
+    private User user;
 
     public UserStatus() {
     }
@@ -50,6 +49,16 @@ public class UserStatus extends BaseEntity implements Serializable {
         this.delete = delete;
     }
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,11 +67,12 @@ public class UserStatus extends BaseEntity implements Serializable {
         UserStatus that = (UserStatus) o;
         return delete == that.delete &&
                 Objects.equals(lastEnter, that.lastEnter) &&
-                Objects.equals(blockDate, that.blockDate);
+                Objects.equals(blockDate, that.blockDate) &&
+                Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), lastEnter, blockDate, delete);
+        return Objects.hash(super.hashCode(), lastEnter, blockDate, delete, user);
     }
 }

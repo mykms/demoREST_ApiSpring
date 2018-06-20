@@ -2,12 +2,10 @@ package com.example.entity.user;
 
 import com.example.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,7 +20,7 @@ public class User extends BaseEntity implements Serializable {
     private Date birthday;
     private UserType userType;
     private UserGender gender;
-    private UserContact userContact;
+    private List<UserContact> userContact;
     private UserStatus status;
     //public String[] roles;
     //public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
@@ -130,18 +128,16 @@ public class User extends BaseEntity implements Serializable {
         this.gender = gender;
     }
 
-    //@OneToMany
-    @Column(name = "contact_id")
-    public UserContact getUserContact() {
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    public List<UserContact> getUserContact() {
         return userContact;
     }
 
-    public void setUserContact(UserContact userContact) {
+    public void setUserContact(List<UserContact> userContact) {
         this.userContact = userContact;
     }
 
-    @OneToOne
-    //@Column(name = "status_id")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     public UserStatus getStatus() {
         return status;
     }
@@ -171,7 +167,6 @@ public class User extends BaseEntity implements Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(super.hashCode(), user_login, user_password, firstName, surname, patronymic, age, birthday, userType, gender, userContact, status);
     }
 }
